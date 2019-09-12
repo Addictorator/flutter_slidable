@@ -560,6 +560,8 @@ class SlidableState extends State<Slidable>
   Size _sizePriorToCollapse;
   bool _dismissing = false;
 
+  bool _isOpen = false;
+
   SlideActionType _actionType = SlideActionType.primary;
   SlideActionType get actionType => _actionType;
   set actionType(SlideActionType value) {
@@ -647,6 +649,8 @@ class SlidableState extends State<Slidable>
   void open({SlideActionType actionType}) {
     widget.controller?.activeState = this;
 
+    _isOpen = true;
+
     if (actionType != null && _actionType != actionType) {
       setState(() {
         this.actionType = actionType;
@@ -665,8 +669,10 @@ class SlidableState extends State<Slidable>
   void close() {
     if (!_overallMoveController.isDismissed) {
       if (widget.controller?.activeState == this) {
+        print("Test");
         widget.controller?.activeState = null;
       } else {
+        print("Also Test");
         _flingAnimationController();
       }
     }
@@ -746,6 +752,7 @@ class SlidableState extends State<Slidable>
     print(_actionsMoveAnimation.value);
     print(_overallMoveController.status);
     print(AnimationStatus.reverse);
+    print(widget.controller?.activeState);
 
     if (_dismissible && overallMoveAnimation.value > _totalActionsExtent) {
       // We are in a dismiss state.
