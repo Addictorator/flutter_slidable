@@ -733,7 +733,6 @@ class SlidableState extends State<Slidable>
   }
 
   void _handleDragEnd(DragEndDetails details) {
-    print("Test");
     if (widget.controller != null && widget.controller.activeState != this) {
       return;
     }
@@ -755,7 +754,15 @@ class SlidableState extends State<Slidable>
       } else {
         open();
       }
-    } else if (_actionsMoveAnimation.value >= widget.showAllActionsThreshold ||
+    } else if (_overallMoveController.status != AnimationStatus.reverse) {
+      // is it closing?
+      if (_actionsMoveAnimation.value >= widget.showAllActionsThreshold) {
+        close();
+      } else {
+        open();
+      }
+    }
+    else if (_actionsMoveAnimation.value >= widget.showAllActionsThreshold ||
         (shouldOpen && fast)) {
       open();
     } else {
