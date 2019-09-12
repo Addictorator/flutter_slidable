@@ -11,6 +11,7 @@ const double _kDismissThreshold = 0.75;
 const Curve _kResizeTimeCurve = const Interval(0.4, 1.0, curve: Curves.ease);
 const Duration _kMovementDuration = const Duration(milliseconds: 200);
 
+///This is a test
 /// The rendering mode in which the [Slidable] is.
 enum SlidableRenderingMode {
   /// The [Slidable] is not showing actions.
