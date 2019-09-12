@@ -753,6 +753,9 @@ class SlidableState extends State<Slidable>
     print(_overallMoveController.status);
     print(AnimationStatus.reverse);
     print(widget.controller?.activeState);
+    print(_isOpen);
+    print(widget.showAllActionsThreshold);
+    print(widget.hideAllActionsThreshold);
 
     if (_dismissible && overallMoveAnimation.value > _totalActionsExtent) {
       // We are in a dismiss state.
@@ -761,7 +764,8 @@ class SlidableState extends State<Slidable>
       } else {
         open();
       }
-    } else if (_isOpen && overallMoveAnimation.value >= (1.0 - widget.showAllActionsThreshold)) {
+    } else if (_isOpen && (1.0 - overallMoveAnimation.value) >= widget.hideAllActionsThreshold) {
+      print("THis triggered");
       close();
     }
     else if (_actionsMoveAnimation.value >= widget.showAllActionsThreshold ||
