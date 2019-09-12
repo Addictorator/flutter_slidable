@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_slidable/src/widgets/fractionnally_aligned_sized_box.dart';
 import 'package:flutter_slidable/src/widgets/slidable.dart';
 
 const Duration _kResizeDuration = const Duration(milliseconds: 300);
