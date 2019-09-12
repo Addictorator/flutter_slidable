@@ -672,7 +672,6 @@ class SlidableState extends State<Slidable>
         _isOpen = false;
         widget.controller?.activeState = null;
       } else {
-        print("Also Test");
         _flingAnimationController();
       }
     }
@@ -748,15 +747,6 @@ class SlidableState extends State<Slidable>
     final bool shouldOpen = velocity.sign == _dragExtent.sign;
     final bool fast = velocity.abs() > widget.fastThreshold;
 
-    print(velocity);
-    print(_actionsMoveAnimation.value);
-    print(_overallMoveController.status);
-    print(AnimationStatus.reverse);
-    print(widget.controller?.activeState);
-    print(_isOpen);
-    print(widget.showAllActionsThreshold);
-    print(widget.hideAllActionsThreshold);
-
     if (_dismissible && overallMoveAnimation.value > _totalActionsExtent) {
       // We are in a dismiss state.
       if (overallMoveAnimation.value >= _dismissThreshold) {
@@ -765,7 +755,6 @@ class SlidableState extends State<Slidable>
         open();
       }
     } else if (_isOpen && (1.0 - overallMoveAnimation.value) >= widget.hideAllActionsThreshold) {
-      print("THis triggered");
       close();
     }
     else if (_actionsMoveAnimation.value >= widget.showAllActionsThreshold ||
