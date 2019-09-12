@@ -669,7 +669,7 @@ class SlidableState extends State<Slidable>
   void close() {
     if (!_overallMoveController.isDismissed) {
       if (widget.controller?.activeState == this) {
-        print("Test");
+        _isOpen = false;
         widget.controller?.activeState = null;
       } else {
         print("Also Test");
@@ -761,13 +761,8 @@ class SlidableState extends State<Slidable>
       } else {
         open();
       }
-    } else if (_overallMoveController.status != AnimationStatus.reverse) {
-      // is it closing?
-      if (_actionsMoveAnimation.value >= widget.showAllActionsThreshold) {
-        close();
-      } else {
-        open();
-      }
+    } else if (_isOpen && overallMoveAnimation.value >= (1.0 - widget.showAllActionsThreshold)) {
+      close();
     }
     else if (_actionsMoveAnimation.value >= widget.showAllActionsThreshold ||
         (shouldOpen && fast)) {
