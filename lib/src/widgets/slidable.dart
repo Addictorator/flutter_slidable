@@ -343,7 +343,7 @@ class Slidable extends StatefulWidget {
   /// The [secondaryActions] contains the slide actions that appears when the child has been dragged up or to the left.
   ///
   /// The [delegate] and [closeOnScroll] arguments must not be null. The [actionExtentRatio]
-  /// and [showAllActionsThreshold] arguments must be greater or equal than 0 and less or equal than 1.
+  /// [showAllActionsThreshold], and [hideAllActionsThreshold] arguments must be greater or equal than 0 and less or equal than 1.
   ///
   /// The [key] argument must not be null if the `slideToDismissDelegate`
   /// is provided because [Slidable]s are commonly
@@ -359,6 +359,7 @@ class Slidable extends StatefulWidget {
     List<Widget> actions,
     List<Widget> secondaryActions,
     double showAllActionsThreshold = 0.5,
+    double hideAllActionsThreshold = 0.5,
     double actionExtentRatio = _kActionsExtentRatio,
     Duration movementDuration = _kMovementDuration,
     Axis direction = Axis.horizontal,
@@ -375,6 +376,7 @@ class Slidable extends StatefulWidget {
           secondaryActionDelegate:
               SlideActionListDelegate(actions: secondaryActions),
           showAllActionsThreshold: showAllActionsThreshold,
+          hideAllActionsThreshold: hideAllActionsThreshold,
           actionExtentRatio: actionExtentRatio,
           movementDuration: movementDuration,
           direction: direction,
@@ -407,6 +409,7 @@ class Slidable extends StatefulWidget {
     this.actionDelegate,
     this.secondaryActionDelegate,
     this.showAllActionsThreshold = 0.5,
+    this.hideAllActionsThreshold = 0.5,
     this.actionExtentRatio = _kActionsExtentRatio,
     this.movementDuration = _kMovementDuration,
     this.direction = Axis.horizontal,
@@ -422,6 +425,11 @@ class Slidable extends StatefulWidget {
                 showAllActionsThreshold >= .0 &&
                 showAllActionsThreshold <= 1.0,
             'showAllActionsThreshold must be between 0.0 and 1.0'),
+        assert(
+        hideAllActionsThreshold != null &&
+            hideAllActionsThreshold >= .0 &&
+            hideAllActionsThreshold <= 1.0,
+        'hideAllActionsThreshold must be between 0.0 and 1.0'),
         assert(
             actionExtentRatio != null &&
                 actionExtentRatio >= .0 &&
@@ -468,6 +476,11 @@ class Slidable extends StatefulWidget {
   /// Represented as a fraction, e.g. if it is 0.4 (the default), then the item
   /// has to be dragged at least 40% of the slide actions extent towards one direction to show all actions.
   final double showAllActionsThreshold;
+
+  /// The offset threshold an open item has to be dragged in order to hide all actions
+  /// in the slide direction
+  ///
+  final double hideAllActionsThreshold;
 
   /// Defines the duration for card to go to final position or to come back to original position if threshold not reached.
   final Duration movementDuration;
@@ -729,6 +742,11 @@ class SlidableState extends State<Slidable>
     final double velocity = details.primaryVelocity;
     final bool shouldOpen = velocity.sign == _dragExtent.sign;
     final bool fast = velocity.abs() > widget.fastThreshold;
+
+    print(velocity);
+    print(_actionsMoveAnimation.value);
+    print(_overallMoveController.status);
+    print(AnimationStatus.reverse);
 
     if (_dismissible && overallMoveAnimation.value > _totalActionsExtent) {
       // We are in a dismiss state.
